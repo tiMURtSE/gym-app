@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '@/scenes/navbar/Navbar';
 import { SelectedPage } from './shared/types';
+import Home from './scenes/home/Home';
 
 function App() {
     const [selectedPage, setSelectedPage] = useState<SelectedPage>(SelectedPage.Home);
@@ -10,14 +11,15 @@ function App() {
         const navbarBackgroundHandler = () => {
             if (window.scrollY === 0) {
                 setIsTopOfPage(true);
+                setSelectedPage(SelectedPage.Home);
             } else {
                 setIsTopOfPage(false);
             }
         };
 
-        document.addEventListener('scroll', navbarBackgroundHandler);
-        return () => document.removeEventListener('scroll', navbarBackgroundHandler);
-    }, [isTopOfPage]);
+        window.addEventListener('scroll', navbarBackgroundHandler);
+        return () => window.removeEventListener('scroll', navbarBackgroundHandler);
+    }, []);
     
     return (
         <div className="App">
@@ -26,7 +28,10 @@ function App() {
                 selectedPage={selectedPage} 
                 setSelectedPage={setSelectedPage} 
             />
-            <div className='h-[1500px]'></div>
+
+            <Home 
+                setSelectedPage={setSelectedPage}
+            />
         </div>
     );
 };
